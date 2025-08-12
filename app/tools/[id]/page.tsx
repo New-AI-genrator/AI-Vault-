@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getToolById, getRecommendedTools } from '@/lib/tools';
+import { getToolById, getRecommendedTools, getTools } from '@/lib/tools';
 import ToolRecommendations from '@/components/ToolRecommendations/ToolRecommendations';
 import Image from 'next/image';
 import Link from 'next/link';
