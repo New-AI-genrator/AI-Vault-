@@ -3,25 +3,42 @@ import { doubleCsrf } from 'csrf-csrf';
 
 const csrfSecret = process.env.CSRF_SECRET || 'your-csrf-secret';
 
+// Create CSRF protection utilities
 const {
-  invalidCsrfTokenError, // This is just for convenience if you don't want to write "new Error('invalid csrf token')
-  generateToken, // Use this in your routes to generate a form token with <input name="_csrf" type="hidden" value="<%= csrfToken %>" />
-  validateRequest, // Also a convenience function
-  doubleCsrfProtection, // The default CSRF protection middleware
+  invalidCsrfTokenError,
+  generateCsrfToken,
+  validateRequest,
+  doubleCsrfProtection,
 } = doubleCsrf({
   getSecret: () => csrfSecret,
+  // Generate a session identifier - required for v4.0.3+
+  getSessionIdentifier: (req: NextRequest) => {
+    // Use the user's IP address as a fallback session identifier
+    return req.headers.get('x-forwarded-for') || 'default-session';
+  },
+  // Name of the cookie to be used
   cookieName: 'x-csrf-token',
+  // Cookie options
   cookieOptions: {
     httpOnly: true,
     sameSite: 'strict',
     path: '/',
     secure: process.env.NODE_ENV === 'production',
   },
+  // Token size in bytes
   size: 64,
+  // HTTP methods that don't require CSRF protection
   ignoredMethods: ['GET', 'HEAD', 'OPTIONS'],
-  getTokenFromRequest: (req: NextRequest) => {
+  // How to get the token from the request
+  getCsrfTokenFromRequest: (req: NextRequest) => {
     return req.headers.get('x-csrf-token') || req.nextUrl.searchParams.get('_csrf') || '';
   },
 });
 
-export { generateToken, validateRequest, doubleCsrfProtection, invalidCsrfTokenError };
+// Re-export the utilities with consistent naming
+export { 
+  generateCsrfToken as generateToken, 
+  validateRequest,
+  invalidCsrfTokenError,
+  doubleCsrfProtection,
+};
