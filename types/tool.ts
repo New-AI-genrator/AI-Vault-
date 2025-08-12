@@ -28,6 +28,7 @@ export interface Tool {
   cons?: string[];
   useCases?: string[];
   apiAvailable?: boolean;
+  launchDate?: string;
   apiDocsUrl?: string;
   githubUrl?: string;
   twitterUrl?: string;
