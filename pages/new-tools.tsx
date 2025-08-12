@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Head from "next/head";
 import { tools } from "../data/tools";
-import ToolCard from "../components/ToolCard";
+import { ToolCard } from "../components/ToolCard";
 
 export default function NewToolsPage() {
   const [search, setSearch] = useState("");

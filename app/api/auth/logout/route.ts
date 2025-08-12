@@ -2,10 +2,10 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { removeAuthCookie } from '@/lib/auth';
 
-export async function POST(request: Request) {
+export async function POST() {
   try {
     // Remove the auth cookie
-    const cookieStore = await cookies(request);
+    const cookieStore = cookies();
     removeAuthCookie(cookieStore);
     
     return new NextResponse(null, { status: 204 });
