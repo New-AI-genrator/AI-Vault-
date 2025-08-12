@@ -5,8 +5,7 @@ import { removeAuthCookie } from '@/lib/auth';
 export async function POST() {
   try {
     // Remove the auth cookie
-    const cookieStore = cookies();
-    removeAuthCookie(cookieStore);
+    await removeAuthCookie();
     
     return new NextResponse(null, { status: 204 });
   } catch (error) {
