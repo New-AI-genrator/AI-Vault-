@@ -1,0 +1,33 @@
+{
+  "css.validate": false,
+  "editor.quickSuggestions": {
+    "strings": true,
+    "comments": true,
+    "other": true
+  },
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.validate": true,
+  "tailwindCSS.experimental.classRegex": [
+    "class:\\s*\"([^\"]*)\"",
+    "class:\\s*'([^']*)'",
+    "class:\\s*`([^`]*)`"
+  ],
+  "css.lint.unknownAtRules": "ignore",
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "*.module.css": "postcss"
+  },
+  "editor.codeActionsOnSave": [
+    "source.fixAll",
+    "source.organizeImports"
+  ],
+  "emmet.includeLanguages": {
+    "postcss": "css",
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  },
+  "editor.inlineSuggest.enabled": true,
+  "editor.formatOnSave": true,
+  "editor.bracketPairColorization.enabled": true,
+  "workbench.colorTheme": "Default Dark+"
+}
