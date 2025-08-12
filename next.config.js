@@ -30,7 +30,6 @@ const nextConfig = {
   env: {
     // Add any environment variables here
     HOST: process.env.HOST || '0.0.0.0',
-    NODE_ENV: process.env.NODE_ENV || 'production',
   },
   // Security headers
   async headers() {
