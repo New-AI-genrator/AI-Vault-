@@ -1,14 +1,19 @@
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
-import { AuthProvider } from '../contexts/AuthContext';
+﻿import type { AppProps } from 'next/app';
+import { MockAuthProvider } from '../contexts/MockAuthContext';
+import { ComparisonProvider } from '../contexts/ComparisonContext';
 import Layout from '../components/Layout/Layout';
+import '../styles/globals.css';
 
-export default function App({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </AuthProvider>
+    <MockAuthProvider>
+      <ComparisonProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ComparisonProvider>
+    </MockAuthProvider>
   );
 }
+
+export default MyApp;

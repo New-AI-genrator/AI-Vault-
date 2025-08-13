@@ -1,33 +1,21 @@
-import { Html, Head, Main, NextScript } from "next/document";
+﻿import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        {/* Favicon */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <meta property="og:url" content="https://yourdomain.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="AI Tools Directory" />
+        <meta property="og:description" content="Discover and compare AI tools" />
+        <meta property="og:image" content="https://yourdomain.com/og-image.jpg" />
         
-        {/* Apple Touch Icons */}
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        
-        {/* Android */}
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        
-        {/* Microsoft Tiles */}
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="msapplication-config" content="/browserconfig.xml" />
-        
-        {/* Theme Color */}
-        <meta name="theme-color" content="#ffffff" />
-        
-        {/* PWA Support */}
-        <link rel="manifest" href="/site.webmanifest" />
-        
-        {/* Safari Pinned Tab */}
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="AI Tools Directory" />
+        <meta name="twitter:description" content="Discover and compare AI tools" />
+        <meta name="twitter:image" content="https://yourdomain.com/twitter-image.jpg" />
       </Head>
-      <body className="antialiased">
+      <body>
         <Main />
         <NextScript />
       </body>
