@@ -19,6 +19,9 @@ export const db = {
     const newUser = {
       ...userData,
       id: Date.now().toString(),
+      isTwoFactorEnabled: userData.isTwoFactorEnabled || false,
+      twoFactorSecret: userData.twoFactorSecret || '',
+      backupCodes: userData.backupCodes || [],
       createdAt: new Date().toISOString()
     };
     

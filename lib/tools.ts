@@ -1,25 +1,12 @@
 import { Tool } from '@/types/tool';
-import { toolCategories } from '@/components/AIAssistant/AIAssistantButton';
+import { tools as allTools } from '@/data/tools';
+
+interface ToolWithMatches extends Tool {
+  _tagMatches?: number;
+}
 
 export async function getTools(): Promise<Tool[]> {
-  // In a real app, this would be an API call
-  // For now, we'll use the tools from AIAssistantButton
-  const allTools: Tool[] = [];
-  
-  toolCategories.forEach((category) => {
-    category.tools.forEach((tool) => {
-      allTools.push({
-        ...tool,
-        // Ensure all required fields are present
-        id: tool.id || `${tool.name.toLowerCase().replace(/\s+/g, '-')}`,
-        subcategory: tool.subcategory || 'general',
-        pricing: tool.pricing || 'Free',
-        tags: tool.tags || [],
-        category: category.name.toLowerCase()
-      });
-    });
-  });
-  
+  // Return the tools directly from the data file
   return allTools;
 }
 
@@ -41,41 +28,46 @@ export async function getRecommendedTools(
   tags: string[] = [], 
   limit: number = 3
 ): Promise<Tool[]> {
-  let tools = await getTools();
+  const tools = await getTools();
   
-  // Filter out current tool
-  if (currentToolId) {
-    tools = tools.filter(tool => tool.id !== currentToolId);
-  }
+  // Filter out the current tool if ID is provided
+  let recommended = tools.filter(tool => 
+    !currentToolId || tool.id !== currentToolId
+  );
   
   // Filter by category if provided
   if (category) {
-    tools = tools.filter(tool => 
+    recommended = recommended.filter(tool => 
       tool.category.toLowerCase() === category.toLowerCase()
     );
   }
   
-  // Sort by tag matches
+  // Sort by number of matching tags if tags are provided
   if (tags.length > 0) {
-    tools = tools.sort((a, b) => {
-      const aMatches = a.tags.filter(tag => tags.includes(tag)).length;
-      const bMatches = b.tags.filter(tag => tags.includes(tag)).length;
-      return bMatches - aMatches;
-    });
-  }
-  
-  // Take top N tools
-  let selectedTools = tools.slice(0, limit);
-  
-  // If we don't have enough tools, fill with random ones
-  if (selectedTools.length < limit) {
-    const remaining = tools
-      .filter(tool => !selectedTools.some(selected => selected.id === tool.id))
-      .sort(() => 0.5 - Math.random())
-      .slice(0, limit - selectedTools.length);
+    const toolsWithMatches: ToolWithMatches[] = recommended.map(tool => ({
+      ...tool,
+      _tagMatches: tool.tags.filter(tag => 
+        tags.some(t => t.toLowerCase() === tag.toLowerCase())
+      ).length
+    }));
     
-    selectedTools = [...selectedTools, ...remaining];
+    recommended = toolsWithMatches
+      .sort((a, b) => (b._tagMatches || 0) - (a._tagMatches || 0))
+      .map(({ _tagMatches, ...tool }) => tool); // Remove the temporary _tagMatches property
   }
   
-  return selectedTools;
+  // If we have enough recommendations, return them
+  if (recommended.length >= limit) {
+    return recommended.slice(0, limit);
+  }
+  
+  // If we don't have enough recommendations, fill with other tools
+  const remaining = tools
+    .filter(tool => 
+      !recommended.some(rec => rec.id === tool.id) && 
+      (!currentToolId || tool.id !== currentToolId)
+    )
+    .slice(0, limit - recommended.length);
+  
+  return [...recommended, ...remaining];
 }
