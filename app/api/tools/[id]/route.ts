@@ -1,10 +1,18 @@
 import { getToolById } from '@/lib/tools';
 import { NextResponse } from 'next/server';
 
-export async function GET(
+interface RouteParams {
+  params: {
+    id: string;
+  };
+}
+
+type RouteHandler = (
   request: Request,
-  { params }: { params: { id: string } }
-) {
+  context: RouteParams
+) => Promise<Response>;
+
+export const GET: RouteHandler = async (request, { params }) => {
   try {
     const tool = await getToolById(params.id);
 
@@ -16,7 +24,6 @@ export async function GET(
     }
 
     return NextResponse.json(tool);
-
   } catch (error) {
     console.error('Error fetching tool:', error);
     return NextResponse.json(
@@ -24,4 +31,4 @@ export async function GET(
       { status: 500 }
     );
   }
-}
+};
