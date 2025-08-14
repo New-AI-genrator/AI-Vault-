@@ -1,11 +1,10 @@
 import { getToolById } from '@/lib/tools';
-import type { NextApiRequest } from 'next';
 import { NextResponse } from 'next/server';
 
-export const GET = async (
-  req: NextApiRequest,
+export async function GET(
+  request: Request,
   { params }: { params: { id: string } }
-) => {
+) {
   try {
     const tool = await getToolById(params.id);
 
@@ -16,13 +15,13 @@ export const GET = async (
       );
     }
 
-    return NextResponse.json({ data: tool });
+    return NextResponse.json(tool);
 
   } catch (error) {
-    console.error(`Error fetching tool:`, error);
+    console.error('Error fetching tool:', error);
     return NextResponse.json(
       { error: 'Failed to fetch tool' },
       { status: 500 }
     );
   }
-};
+}
