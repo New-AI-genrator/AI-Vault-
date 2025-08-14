@@ -3,10 +3,10 @@ import { NextResponse } from 'next/server';
 
 export async function GET(
   request: Request,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const tool = await getToolById(context.params.id);
+    const tool = await getToolById(params.id);
 
     if (!tool) {
       return NextResponse.json(
@@ -18,7 +18,7 @@ export async function GET(
     return NextResponse.json({ data: tool });
 
   } catch (error) {
-    console.error(`Error fetching tool ${context.params.id}:`, error);
+    console.error(`Error fetching tool ${params.id}:`, error);
     return NextResponse.json(
       { error: 'Failed to fetch tool' },
       { status: 500 }
