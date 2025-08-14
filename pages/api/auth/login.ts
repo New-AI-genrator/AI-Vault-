@@ -17,8 +17,8 @@ type NextApiResponse = {
 // @ts-ignore - Bypassing type checking for bcryptjs
 import { compare } from 'bcryptjs';
 // @ts-ignore - Bypassing type checking for jsonwebtoken
-import { sign } from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
+import { sign } from 'jsonwebtoken';
 
 type LoginRequest = {
   email: string;
@@ -57,13 +57,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Set cookie with Vercel-compatible settings
     res.setHeader(
       'Set-Cookie',
-      `token=${token}; ` +
-      'HttpOnly; ' +
-      'Path=/; ' +
-      `Max-Age=${process.env.SESSION_EXPIRY || 86400}; ` +
-      `${process.env.NODE_ENV === 'production' ? 'Secure; ' : ''}` +
-      'SameSite=Lax' +
-      `${process.env.NODE_ENV === 'production' ? '; Domain=yourdomain.com' : ''}`
+      `token=${token}; HttpOnly; Path=/; Max-Age=${process.env.SESSION_EXPIRY || 86400}; ${process.env.NODE_ENV === 'production' ? 'Secure; ' : ''}SameSite=Lax${process.env.NODE_ENV === 'production' ? '; Domain=yourdomain.com' : ''}`
     );
 
     const { password: _, ...userWithoutPassword } = user;
