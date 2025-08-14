@@ -65,3 +65,6 @@ light
 
 dark
 © 2025, Vercel Inc.
+$env:DATABASE_URL = "psql 'postgresql://neondb_owner:npg_BmPWvc6GH3la@ep-round-cherry-a1kfdepo-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'; npx prisma db push --force-reset
+$env:DATABASE_URL = "postgresql://username:password@host/database?schema=public"
+$env:DATABASE_URL = psql 'postgresql://neondb_owner:npg_BmPWvc6GH3la@ep-round-cherry-a1kfdepo-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'; npx prisma db push --force-reset

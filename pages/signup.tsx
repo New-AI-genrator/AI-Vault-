@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function SignUp() {
@@ -25,33 +25,38 @@ export default function SignUp() {
 
   const validateForm = () => {
     const newErrors: string[] = [];
-    
+
     if (!formData.name.trim()) newErrors.push('Name is required');
     if (!formData.email.trim()) newErrors.push('Email is required');
     if (!formData.email.includes('@')) newErrors.push('Please enter a valid email');
     if (formData.password.length < 6) newErrors.push('Password must be at least 6 characters');
     if (formData.password !== formData.confirmPassword) newErrors.push('Passwords do not match');
-    
+
     setErrors(newErrors);
     return newErrors.length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setIsLoading(true);
-    
-    const success = await signup(formData.name, formData.email, formData.password);
-    
-    if (success) {
-      router.push('/');
-    } else {
-      setErrors(['An account with this email already exists']);
+
+    try {
+      const result = await signup(formData.name, formData.email, formData.password);
+
+      if (result.success) {
+        router.push('/');
+      } else {
+        setErrors([result.error || 'Failed to create an account']);
+      }
+    } catch (error) {
+      setErrors(['An unexpected error occurred. Please try again.']);
+      console.error('Signup error:', error);
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   return (
@@ -86,7 +91,7 @@ export default function SignUp() {
           {/* Sign Up Form */}
           <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-2xl">
             <h2 className="text-2xl font-bold text-white mb-6 text-center">Create Your Account</h2>
-            
+
             {errors.length > 0 && (
               <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4 mb-6">
                 {errors.map((error, index) => (
