@@ -1,4 +1,6 @@
-﻿import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+"use client";
+
+import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 
 interface User {
   id: string;

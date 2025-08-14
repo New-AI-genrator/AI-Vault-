@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -177,8 +177,10 @@ export default function SignUp() {
             <div className="mt-6 text-center">
               <p className="text-gray-300">
                 Already have an account?{' '}
-                <Link href="/login" className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-300">
-                  Sign In
+                <Link href="/login">
+                  <a className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-300">
+                    Sign In
+                  </a>
                 </Link>
               </p>
             </div>
@@ -196,7 +198,7 @@ export default function SignUp() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
           33% { transform: translateY(-30px) rotate(1deg); }

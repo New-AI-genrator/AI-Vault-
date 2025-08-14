@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useCallback } from "react";
-import Head from "next/head";
+import { default as NextHead } from "next/head";
 import { categories } from "../data/categories";
 import { tools } from "../data/tools";
 import CategoryCard from "../components/CategoryCard";
@@ -120,11 +120,11 @@ export default function HomePage() {
 
   return (
     <>
-      <Head>
+      <NextHead>
         <title>AI Tools Directory - Digital Superorganism</title>
         <meta name="description" content="Not a Website – A Digital Superorganism. 1000+ Battle-Tested Digital Weapons - Zero Mercy Edition." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      </NextHead>
 
       {/* Ultra-Premium Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
